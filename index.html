@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="Align3R: Aligned Monocular Depth Estimation for Dynamic Videos">
+  <meta property="og:title" content="Align3R: Aligned Monocular Depth Estimation for Dynamic Videos">
+  <meta property="og:description" content="Align3R: Aligned Monocular Depth Estimation for Dynamic Videos">
+  <meta property="og:image" content="https://shape-of-motion.github.io/static/images/open_graph.png">
+  <meta property="twitter:title" content="Align3R: Aligned Monocular Depth Estimation for Dynamic Videos">
+  <meta property="twitter:description" content="Align3R: Aligned Monocular Depth Estimation for Dynamic Videos">
+  <meta property="twitter:image" content="https://shape-of-motion.github.io/static/images/open_graph.png">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="keywords" content="Video depth estimation, Camera pose estimation">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Align3R: Aligned Monocular Depth Estimation for Dynamic Videos</title>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+  <!-- <script src="./static/js/lqm.js"></script> -->
+  <script src="./static/js/video_comparison.js" defer></script>
+
+  <link rel="icon"
+    href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎬</text></svg>">
+  
+</head>
+
+<body>
+
+  <section class="hero">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+
+            <h1 class="title is-1 publication-title">Align3R: Aligned Monocular Depth Estimation for Dynamic Videos
+              Videos</h1>
+            <!-- <h3 class="title is-1 publication-title">Anonymous Authors</h3> -->
+            <div class="is-size-4 publication-authors">
+              Jiahao Lu, Tianyu Huang, Peng Li, Zhiyang Dou, Cheng Lin, Zhiming Cui, Zhen Dong, Sai-Kit Yeung, Wenping Wang, Yuan Liu
+<!--                <span class="author-block">
+                Anonymous Authors</span> -->
+              <span class="author-block">
+                <h6>
+                  <a href="https://github.com/jiah-cloud" target="_blank">Jiahao Lu</a><sup>1*</sup>,
+                  <a href="" target="_blank">Tianyu Huang</a><sup>2*</sup>,
+                  <a href="https://scholar.google.com/citations?user=8eTLCkwAAAAJ&hl=zh-CN" target="_blank">Peng Li</a><sup>2</sup>,
+                  <a href="https://frank-zy-dou.github.io/" target="_blank">Zhiyang Dou</a><sup>1</sup>,
+                  <a href="https://clinplayer.github.io/" 
+                  target="_blank">Cheng Lin</a><sup>2</sup>,<br>
+                  <a href="" target="_blank">Zhiming Cui</a><sup>3</sup>,
+
+                  <a href="https://dongzhenwhu.github.io/index.html" target="_blank">Zhen Dong</a><sup>1</sup>,
+                  <a href="https://saikit.org/index.html" target="_blank">Sai-Kit Yeung</a><sup>1</sup>,
+                  <a href="https://scholar.google.com/citations?user=28shvv0AAAAJ&hl=en" target="_blank">Wenping Wang</a><sup>1</sup>,
+                  <a href="https://liuyuan-pal.github.io/" target="_blank">Yuan Liu</a><sup>1&dagger;</sup>,
+                </h6>
+              </span>
+
+            </div>
+
+            <div class="column has-text-centered">
+              <div class="publication-links">
+                <!-- PDF Link. -->
+                <span class="link-block">
+                  <a href="static/paper.pdf" class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                    </span>
+                    <span>Paper</span>
+                  </a>
+                </span>
+                <span class="link-block">
+                  <a href="" class="external-link button is-normal is-rounded is-dark">
+
+                    <svg class="svg-inline--fa fa-youtube fa-w-18" aria-hidden="true" focusable="false"
+                      data-prefix="fab" data-icon="youtube" role="img" xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 576 512" data-fa-i2svg="">
+                      <path fill="currentColor"
+                        d="M549.655 124.083c-6.281-23.65-24.787-42.276-48.284-48.597C458.781 64 288 64 288 64S117.22 64 74.629 75.486c-23.497 6.322-42.003 24.947-48.284 48.597-11.412 42.867-11.412 132.305-11.412 132.305s0 89.438 11.412 132.305c6.281 23.65 24.787 41.5 48.284 47.821C117.22 448 288 448 288 448s170.78 0 213.371-11.486c23.497-6.321 42.003-24.171 48.284-47.821 11.412-42.867 11.412-132.305 11.412-132.305s0-89.438-11.412-132.305zm-317.51 213.508V175.185l142.739 81.205-142.739 81.201z">
+                      </path>
+                    </svg>
+                    <span>Video [coming soon] </span>
+                  </a>
+                </span>
+                <!--
+                <span class="link-block">
+                  <a href="" class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                    </span>
+                    <span>arXiv</span>
+                  </a>
+                </span>
+-->
+                <span class="link-block">
+                  <a href="https://github.com/MoDGS/MoDGS.git" class="external-link button is-normal is-rounded is-dark" title="Code">
+                    <span class="icon">
+                      <i class="fab fa-github"></i>
+                    </span>
+<!--                     <span>Code and data [coming soon</span> -->
+                             <span>Code and data </span>
+                  </a>
+                </span>
+
+                <!--
+                <span class="link-block">
+                  <a class="external-link button is-normal is-rounded is-dark" title="Coming soon!" disabled>
+                    <span class="icon">
+                        <i class="far fa-images"></i>
+                    </span>
+                    <span>Data</span>
+                    </a>
+                  </span> -->
+
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- <section class="section">
+    <div class="container is-max-desktop">
+      <video id="teaser" width="100%" playsinline  autoplay loop muted>
+        <source src="static/videos/CVPR25_Align3R_video.mp4" type="video/mp4" />
+      </video>
+      <script>
+        document.getElementById('teaser').play();
+      </script>
+    </div>
+  </section> -->
+
+  <!-- resutl on DyNeRF dataset -->
+  <!-- resutl on DyNeRF dataset -->
+  <!-- resutl on DyNeRF dataset -->
+  <!-- resutl on DyNeRF dataset -->
+  <section>
+    <!-- </div> -->
+    <h2 style="text-align: center;" class="is-size-4"><b>Align3R</b> estimates temporally consistent video depth,  </h2>
+    <h2 style="text-align: center;" class="is-size-4">dynamic point clouds, and camera poses from monocular videos</h2>
+
+    <!-- Teaser video -->
+    <div class="section base-row add-top-padding">
+      <video id="main-video" autobuffer muted autoplay loop controls playsinline>
+          <source id="mp4" src="./static/video/CVPR25_Align3R_video.mp4" type="video/mp4">
+      </video>
+    </div>
+    <!-- Framework -->
+    <div class="section base-row add-top-padding">
+      <h1 class="tldr">
+        Given two frames of a video, we apply the ViT-based encoder and decoder to predict pairwise point maps from them. In this process, we apply the external monocular depth estimator to estimate depth maps for these two images, process the estimated depth with a new ViT-based encoder, and finally inject the extracted features from this new encoder into the decoder of the original DUSt3R decoder with zero convolution layers.
+        
+        During inference, we apply global alignment to ensure consistent depth maps, camera poses and point clouds across each frame.
+      </h1>
+      <img src="./static/img/framework_00.jpg" style="max-width: 100%" />
+  </div>
+    <!-- <section class="hero is-light is-small"> -->
+    <div class="hero-body">
+      <h2 style="text-align: center;" class="is-size-4">Reconstructed point clouds </h2>
+      <!-- <div class="column is-full-width has-text-centered"> -->
+      <!-- <div class="container"> -->
+      <div id="results-carousel" class="carousel results-carousel">
+      
+        <!-- cofffee -->
+        <!-- <div class="item item-steve video-grid">
+          <div class="video-description0">input video</div>
+          <div class="video-description1">renderings</div>
+          <div class="video-description2">estimated monocular depth</div>
+          <div class="video-description3">rendered depth</div>
+
+
+          <video poster="" id="steve gt_rgb" autoplay muted loop playsinline height="100%">
+            <source src="static\combined_Video_results\dynerf\coffee_martini_4in1_output.mp4" type="video/mp4">
+          </video>
+        </div> -->
+        <div class="item item-steve video-grid"  >
+          <iframe id="bear" class="iframe" src="https://rsrd-anonymous.github.io/build/?playbackPath=./static/viser_result/recording_bear.viser&initDistanceScale=1" style="width: 400px; height: 300px;"></iframe>
+          <iframe id="bear" class="iframe" src="https://rsrd-anonymous.github.io/build/?playbackPath=./static/viser_result/recording_breakdance-flare.viser&initDistanceScale=1" style="width: 400px; height: 300px;"></iframe>
+
+          <iframe id="bear" class="iframe" src="https://rsrd-anonymous.github.io/build/?playbackPath=./static/viser_result/recording_breakdance.viser&initDistanceScale=1" style="width: 400px; height: 300px;"></iframe>
+          <iframe id="bear" class="iframe" src="https://rsrd-anonymous.github.io/build/?playbackPath=./static/viser_result/recording_bus.viser&initDistanceScale=1" style="width: 400px; height: 300px;"></iframe>
+        </div>
+
+        <div class="item item-steve video-grid"  >
+          <iframe id="bear" class="iframe" src="https://rsrd-anonymous.github.io/build/?playbackPath=./static/viser_result/recording_camel.viser&initDistanceScale=1" style="width: 400px; height: 300px;"></iframe>
+          <iframe id="bear" class="iframe" src="https://rsrd-anonymous.github.io/build/?playbackPath=./static/viser_result/recording_cows.viser&initDistanceScale=1" style="width: 400px; height: 300px;"></iframe>
+
+          <iframe id="bear" class="iframe" src="https://rsrd-anonymous.github.io/build/?playbackPath=./static/viser_result/recording_lucia.viser&initDistanceScale=1" style="width: 400px; height: 300px;"></iframe>
+          <iframe id="bear" class="iframe" src="https://rsrd-anonymous.github.io/build/?playbackPath=./static/viser_result/recording_libby.viser&initDistanceScale=1" style="width: 400px; height: 300px;"></iframe>
+        </div>
+
+        <div class="item item-steve video-grid"  >
+          <iframe id="bear" class="iframe" src="https://rsrd-anonymous.github.io/build/?playbackPath=./static/viser_result/recording_scooter-black.viser&initDistanceScale=1" style="width: 400px; height: 300px;"></iframe>
+          <iframe id="bear" class="iframe" src="https://rsrd-anonymous.github.io/build/?playbackPath=./static/viser_result/recording_scooter-gray.viser&initDistanceScale=1" style="width: 400px; height: 300px;"></iframe>
+
+          <iframe id="bear" class="iframe" src="https://rsrd-anonymous.github.io/build/?playbackPath=./static/viser_result/recording_tennis.viser&initDistanceScale=1" style="width: 400px; height: 300px;"></iframe>
+          <iframe id="bear" class="iframe" src="https://rsrd-anonymous.github.io/build/?playbackPath=./static/viser_result/recording_train.viser&initDistanceScale=1" style="width: 400px; height: 300px;"></iframe>
+        </div>
+
+      </div>
+
+    </div>
+    </div>
+  </section>
+
+
+
+  <!-- Abstract -->
+  <!-- Abstract -->
+  <!-- Abstract -->
+  <!-- <section class="section"> -->
+  <section class="section">
+    <div class="container is-max-desktop">
+      <!-- Abstract. -->
+      <h2 class="title is-3">Abstract</h2>
+      <div class="content has-text-justified">
+        <p>
+          Recent developments in monocular depth estimation methods enable high-quality depth estimation of single-view images but fail to estimate consistent video depth across different frames. Recent works address this problem by applying a video diffusion model to generate video depth conditioned on the input video, which is training-expensive and can only produce scale-invariant depth values without camera poses. 
+        </p>
+        <p>
+          In this paper, we propose a novel video-depth estimation method called <b>Align3R</b> to estimate temporal consistent depth maps for a dynamic video. Our key idea is to utilize the recent DUSt3R model to align estimated monocular depth maps of different timesteps. First, we fine-tune the DUSt3R model with additional estimated monocular depth as inputs for the dynamic scenes. Then, we apply optimization to reconstruct both depth maps and camera poses. Extensive experiments demonstrate that Align3R estimates consistent video depth and camera poses for a monocular video with superior performance than baseline methods.
+        </p>
+      </div>
+    </div>
+  </section>
+
+
+
+  <!-- Comparison -->
+  <!-- Comparison -->
+  <!-- Comparison -->
+
+
+
+  <!-- resutl on Davis dataset -->
+  <!-- resutl on Davis dataset -->
+  <!-- resutl on Davis dataset -->
+
+  <section>
+    <div class="container is-max-desktop">
+      <h2 class="title is-4">Results on DAVIS dataset</h2>
+
+    </div>
+    <!-- <section class="hero is-light is-small"> -->
+    <div class="hero-body">
+      <!-- <div class="column is-full-width has-text-centered"> -->
+      <!-- <div class="container"> -->
+      <div id="results-carousel" class="carousel results-carousel">
+
+
+        <!-- breakdance-->
+        <div class="item item-steve video-grid1">
+          <div class="video-description0">Input video</div>
+          <div class="video-description1">DUSt3R</div>
+          <div class="video-description2">MonST3R</div>
+          <div class="video-description3">Ours w Depth Pro</div>
+
+
+          <!-- <div class="video-description0">input video</div> -->
+          <video poster="" id="steve gt_rgb" autoplay muted loop playsinline height="100%">
+            <source src="./static/video/bear.mp4" type="video/mp4">
+          </video>
+        </div>
+
+        <!-- breakdance  -->
+        <div class="item item-steve video-grid1">
+          <div class="video-description0">Input video</div>
+          <div class="video-description1">DUSt3R</div>
+          <div class="video-description2">MonST3R</div>
+          <div class="video-description3">Ours w Depth Pro</div>
+
+          <!-- <div class="video-description0">input video</div> -->
+          <video poster="" id="steve gt_rgb" autoplay muted loop playsinline height="100%">
+            <source src="./static/video/breakdance.mp4" type="video/mp4">
+          </video>
+        </div>
+        
+        <!--libby  -->
+        <div class="item item-steve video-grid1">
+          <div class="video-description0">Input video</div>
+          <div class="video-description1">DUSt3R</div>
+          <div class="video-description2">MonST3R</div>
+          <div class="video-description3">Ours w Depth Pro</div>
+
+
+          <!-- <div class="video-description0">input video</div> -->
+          <video poster="" id="steve gt_rgb" autoplay muted loop playsinline height="100%">
+            <source src="./static/video/libby.mp4" type="video/mp4">
+          </video>
+        </div>
+        
+        <!--scooter-gray  -->
+        <div class="item item-steve video-grid1">
+          <div class="video-description0">Input video</div>
+          <div class="video-description1">DUSt3R</div>
+          <div class="video-description2">MonST3R</div>
+          <div class="video-description3">Ours w Depth Pro</div>
+
+
+          <!-- <div class="video-description0">input video</div> -->
+          <video poster="" id="steve gt_rgb" autoplay muted loop playsinline height="100%">
+            <source src="./static/video/scooter-gray.mp4" type="video/mp4">
+          </video>
+        </div>
+
+        <!-- breakdance-flare  -->
+        <div class="item item-steve video-grid1">
+          <div class="video-description0">Input video</div>
+          <div class="video-description1">DUSt3R</div>
+          <div class="video-description2">MonST3R</div>
+          <div class="video-description3">Ours w Depth Pro</div>
+
+
+          <!-- <div class="video-description0">input video</div> -->
+          <video poster="" id="steve gt_rgb" autoplay muted loop playsinline height="100%">
+            <source src="./static/video/breakdance-flare.mp4" type="video/mp4">
+          </video>
+        </div>
+
+
+
+
+
+
+
+      </div>
+      <!-- </div> -->
+    </div>
+    </div>
+  </section>
+
+  <!-- resutl on Nvidia dataset -->
+  <!-- resutl on Nvidia dataset -->
+  <!-- resutl on Nvidia dataset -->
+
+  <section>
+    <div class="container is-max-desktop">
+      <h2 class="title is-4">Results on indoor scenes (TUM dynamics and Bonn datasets)</h2>
+
+    </div>
+    <!-- <section class="hero is-light is-small"> -->
+    <div class="hero-body">
+      <!-- <div class="column is-full-width has-text-centered"> -->
+      <!-- <div class="container"> -->
+      <div id="results-carousel" class="carousel results-carousel">
+        <!-- balloon1-2-->
+
+
+        <!-- Balloon2-2 -->
+        <div class="item item-steve video-grid1">
+          <div class="video-description0">Input video</div>
+          <div class="video-description1">DUSt3R</div>
+          <div class="video-description2">MonST3R</div>
+          <div class="video-description3">Ours w Depth Pro</div>
+
+
+          <!-- <div class="video-description0">input video</div> -->
+          <video poster="" id="steve gt_rgb" autoplay muted loop playsinline height="100%">
+            <source src="./static/video/synchronous.mp4" type="video/mp4">
+          </video>
+        </div>
+
+        <!-- face  -->
+        <div class="item item-steve video-grid1">
+          <div class="video-description0">Input video</div>
+          <div class="video-description1">DUSt3R</div>
+          <div class="video-description2">MonST3R</div>
+          <div class="video-description3">Ours w Depth Pro</div>
+
+
+          <!-- <div class="video-description0">input video</div> -->
+          <video poster="" id="steve gt_rgb" autoplay muted loop playsinline height="100%">
+            <source src="./static/video/1.mp4" type="video/mp4">
+          </video>
+        </div>
+
+
+
+        <div class="item item-steve video-grid1">
+          <div class="video-description0">Input video</div>
+          <div class="video-description1">DUSt3R</div>
+          <div class="video-description2">MonST3R</div>
+          <div class="video-description3">Ours w Depth Pro</div>
+
+
+          <!-- <div class="video-description0">input video</div> -->
+          <video poster="" id="steve gt_rgb" autoplay muted loop playsinline height="100%">
+            <source src="./static/video/2.mp4" type="video/mp4">
+          </video>
+        </div>
+
+
+        <!--skatting  -->
+        <div class="item item-steve video-grid1">
+          <div class="video-description0">Input video</div>
+          <div class="video-description1">DUSt3R</div>
+          <div class="video-description2">MonST3R</div>
+          <div class="video-description3">Ours w Depth Pro</div>
+
+
+          <!-- <div class="video-description0">input video</div> -->
+          <video poster="" id="steve gt_rgb" autoplay muted loop playsinline height="100%">
+            <source src=./static/video/3.mp4 type="video/mp4">
+          </video>
+        </div>
+        <!--Truck  -->
+        <div class="item item-steve video-grid1">
+          <div class="video-description0">Input video</div>
+          <div class="video-description1">DUSt3R</div>
+          <div class="video-description2">MonST3R</div>
+          <div class="video-description3">Ours w Depth Pro</div>
+          <!-- <div class="video-description0">input video</div> -->
+          <video poster="" id="steve gt_rgb" autoplay muted loop playsinline height="100%">
+            <source src=./static/video/4.mp4 type="video/mp4">
+          </video>
+        </div>
+
+
+
+
+      </div>
+      <!-- </div> -->
+    </div>
+    </div>
+  </section>
+
+
+
+
+
+  <!-- resutl on self made dataset -->
+  <!-- resutl on self made dataset -->
+  <!-- resutl on self made dataset -->
+  <!-- resutl on self made dataset -->
+  <section>
+    <div class="container is-max-desktop">
+      <h2 class="title is-4">Results on PointOdyssey and FlyingThings3D datasets</h2>
+      <!-- <p>
+          Here we display results of our MoDGS On asDyNeRF datet. <br><br>
+          Change the scene by clicking the button below:
+        </p> -->
+    </div>
+
+
+    
+    <div class="hero-body">
+      <div id="results-carousel" class="carousel results-carousel">
+        <div class="item item-steve video-grid1">
+          <div class="video-description4">Input video</div>
+          <div class="video-description5">ChronoDepth</div>
+          <div class="video-description6">DepthCrafter</div>
+          <div class="video-description7">Ours w Depth Pro</div>
+          <div class="video-description8">GT</div>
+          <video poster="" id="steve gt_rgb" autoplay muted loop playsinline height="50%">
+            <source src=./static/video/ani1_new__sequences.mp4 type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-steve video-grid1">
+          <div class="video-description4">Input video</div>
+          <div class="video-description5">ChronoDepth</div>
+          <div class="video-description6">DepthCrafter</div>
+          <div class="video-description7">Ours w Depth Pro</div>
+          <div class="video-description8">GT</div>
+          <video poster="" id="steve gt_rgb" autoplay muted loop playsinline height="100%">
+            <source src=./static/video/ani16_new__sequences.mp4 type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-steve video-grid1">
+          <div class="video-description4">Input video</div>
+          <div class="video-description5">ChronoDepth</div>
+          <div class="video-description6">DepthCrafter</div>
+          <div class="video-description7">Ours w Depth Pro</div>
+          <div class="video-description8">GT</div>
+          <video poster="" id="steve gt_rgb" autoplay muted loop playsinline height="100%">
+            <source src=./static/video/cnb_dlab_0215_ego2_sequences.mp4 type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-steve video-grid1">
+          <div class="video-description4">Input video</div>
+          <div class="video-description5">ChronoDepth</div>
+          <div class="video-description6">DepthCrafter</div>
+          <div class="video-description7">Ours w Depth Pro</div>
+          <div class="video-description8">GT</div>
+          <video poster="" id="steve gt_rgb" autoplay muted loop playsinline height="100%">
+            <source src=./static/video/egobody_3rd_sequences.mp4 type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-steve video-grid1">
+          <div class="video-description4">Input video</div>
+          <div class="video-description5">ChronoDepth</div>
+          <div class="video-description6">DepthCrafter</div>
+          <div class="video-description7">Ours w Depth Pro</div>
+          <div class="video-description8">GT</div>
+          <video poster="" id="steve gt_rgb" autoplay muted loop playsinline height="100%">
+            <source src=./static/video/r1_new_f_sequences.mp4 type="video/mp4">
+          </video>
+        </div>
+      </div>
+      <!-- </div> -->
+    </div>
+
+    <div class="hero-body">
+      <div id="results-carousel" class="carousel results-carousel">
+        <div class="item item-steve video-grid1">
+          <div class="video-description4">Input video</div>
+          <div class="video-description5">ChronoDepth</div>
+          <div class="video-description6">Depth Pro</div>
+          <div class="video-description7">Ours w Depth Pro</div>
+          <div class="video-description8">GT</div>
+          <video poster="" id="steve gt_rgb" autoplay muted loop playsinline height="50%">
+            <source src=./static/video/A_0000_left_sequences_lowfps.mp4 type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-steve video-grid1">
+          <div class="video-description4">Input video</div>
+          <div class="video-description5">ChronoDepth</div>
+          <div class="video-description6">Depth Pro</div>
+          <div class="video-description7">Ours w Depth Pro</div>
+          <div class="video-description8">GT</div>
+          <video poster="" id="steve gt_rgb" autoplay muted loop playsinline height="100%">
+            <source src=./static/video/A_0021_left_sequences_lowfps.mp4 type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-steve video-grid1">
+          <div class="video-description4">Input video</div>
+          <div class="video-description5">ChronoDepth</div>
+          <div class="video-description6">Depth Pro</div>
+          <div class="video-description7">Ours w Depth Pro</div>
+          <div class="video-description8">GT</div>
+          <video poster="" id="steve gt_rgb" autoplay muted loop playsinline height="100%">
+            <source src=./static/video/A_0071_left_sequences_lowfps.mp4 type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-steve video-grid1">
+          <div class="video-description4">Input video</div>
+          <div class="video-description5">ChronoDepth</div>
+          <div class="video-description6">Depth Pro</div>
+          <div class="video-description7">Ours w Depth Pro</div>
+          <div class="video-description8">GT</div>
+          <video poster="" id="steve gt_rgb" autoplay muted loop playsinline height="100%">
+            <source src=./static/video/A_0093_left_sequences_lowfps.mp4 type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-steve video-grid1">
+          <div class="video-description4">Input video</div>
+          <div class="video-description5">ChronoDepth</div>
+          <div class="video-description6">Depth Pro</div>
+          <div class="video-description7">Ours w Depth Pro</div>
+          <div class="video-description8">GT</div>
+          <video poster="" id="steve gt_rgb" autoplay muted loop playsinline height="100%">
+            <source src=./static/video/A_0104_left_sequences_lowfps.mp4 type="video/mp4">
+          </video>
+        </div>
+      </div>
+      <!-- </div> -->
+    </div>
+    <div class="container is-max-desktop">
+      <h2 class="title is-4">Camera pose estimation</h2>
+      <!-- <p>
+          Here we display results of our MoDGS On asDyNeRF datet. <br><br>
+          Change the scene by clicking the button below:
+        </p> -->
+    </div>
+    <div class="section base-row add-top-padding">
+      <h1 class="tldr">
+      
+      </h1>
+      <img src="./static/img/pose_curve_00.jpg" style="max-width: 100%" />
+  </div>
+  </section>
+
+
+
+  <!-- <section class="section">
+    <div class="container is-max-desktop">
+
+      <h2 class="title is-3">Method</h2>
+      <div class="container is-max-desktop">
+        <img src="static\img\fig-overview_00.png" alt="Image description" style="display: block; margin: auto;">
+        <p>
+          <strong>Fig 1.</strong><strong>Overview.</strong> Given a casually captured monocular video of a dynamic
+          scene, MoDGS represents the
+          dynamic scene with a set of Gaussians in a canonical
+          space and a deformation field represented by an MLP network T. To render an image at a specific timestep 𝑡,
+          we deform all the Gaussians by T𝑡 and then use
+          the splatting technique to render images and depth maps. While in training MoDGS, we use a single-view depth
+          estimator GeoWizard [Fu et al. 2024] to
+          estimate a depth map for every frame and compute the rendering loss and an ordinal depth loss to learn MoDGS.
+        </p>
+      </div>
+      <br><br>
+      <div class="container is-max-desktop">
+        <img src="static\img\fig-deform_init1and2_00.png" alt="Image description" style="display: block; margin: auto;">
+        <p>
+          <strong>Fig 2.</strong><strong>(a) Initialization of the deformation field.</strong> We first lift the depth
+          maps and a 2D flow to a
+          3D flow and train the deformation field for initialization.
+          <strong>(b) Initialization of Gaussians in the canonical space.</strong> We use the initialized deformation
+          field to deform all the depth points to the canonical space and
+          downsample these depth points to initialize Gaussians.
+        </p>
+      </div>
+      <br><br>
+      <div class="container is-max-desktop">
+        <img src="static\img\fig-depthoderloss_00.png" alt="Image description" width=50%
+          style="display: block; margin: auto;">
+        <p>
+          <strong>Fig 3.</strong> We show the estimated single-view depth maps at two different timesteps 𝐷𝑡𝑖
+          and 𝐷𝑡𝑗 after normalization to the same scale. Since the
+          single-view depth estimator is not accurate enough, the depth maps are
+          not linear related so the scale normalization does not perfectly align them.
+          However, the order of depth values on three corresponding pixels is stable
+          for these two depth maps, which motivates us to propose an ordinal depth loss for supervision.
+        </p>
+        <p class="title is-6"><span style="color:red;">Please See our video results above ,our rendered depth videos are
+            more consistent and stable than the inputs.</p>
+      </div>
+    </div>
+  </section> -->
+
+
+
+
+
+  <footer class="footer">
+    <div class="container">
+      <div class="columns is-centered">
+        <div class="column is-8">
+          <div class="content">
+            <p>
+              This webpage is based on the project page for <a href="https://modgs.github.io/">MoDGS</a>, <a href="https://nerf-casting.github.io/">NeRF-Casting</a>,
+              <a href="https://camp-nerf.github.io">CamP</a> and <a href="https://nerfies.github.io/">Nerfies</a>. The
+              video
+              comparison tool is from the <a href="https://dorverbin.github.io/refnerf/index.html">Ref-NeRF</a>
+              project. The
+              point cloud
+              visualization tool is from the <a href="https://robot-see-robot-do.github.io/">RSRD</a>
+              project. 
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+
+</body>
+
+</html>
