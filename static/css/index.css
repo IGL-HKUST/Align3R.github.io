@@ -66,7 +66,6 @@ body {
 .video-description7,
 .video-description8 {
   position: absolute;
-  top: 5%;
   background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
   color: white;
   padding: 5px 10px;
@@ -75,11 +74,11 @@ body {
   border-radius: 5px;
 }
 
-.video-description4 { left: 2%; }
-.video-description5 { left: 22%; }
-.video-description6 { left: 42%; }
-.video-description7 { left: 62%; }
-.video-description8 { left: 82%; }
+.video-description4 { top: 2%; left: 2%; }
+.video-description5 { top: 52%; left: 2%; }
+.video-description6 { top: 52%; left: 52%; }
+.video-description7 { top: 77%; left: 2%; }
+.video-description8 { top: 77%; left: 52%; }
 
 .top-left {
   top: 0;
