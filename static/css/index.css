@@ -151,8 +151,8 @@ body {
 
 .video-grid2 {
   position: relative;
-  height: 1000px;
-  width: 1000px;
+  height: 900px;
+  width: 900px;
   margin: 0 auto;
   display: flex;
   justify-content: center;
